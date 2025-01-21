@@ -1,0 +1,467 @@
+options:
+  parameters:
+    author: ''
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: transmitter_hier
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Transmitter Block
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: enc_cc
+  id: variable_cc_encoder_def
+  parameters:
+    comment: ''
+    dim1: '1'
+    dim2: '1'
+    framebits: 12000*2
+    k: '7'
+    mode: fec.CC_TERMINATED
+    ndim: '0'
+    padding: 'True'
+    polys: '[109,79]'
+    rate: '2'
+    state_start: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 4.0]
+    rotation: 0
+    state: true
+- name: excess_bw
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.35'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [400, 8.0]
+    rotation: 0
+    state: enabled
+- name: len_key
+  id: variable
+  parameters:
+    comment: ''
+    value: '"packet length"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [400, 80.0]
+    rotation: 0
+    state: enabled
+- name: message_size
+  id: variable
+  parameters:
+    comment: ''
+    value: '256'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 112.0]
+    rotation: 0
+    state: true
+- name: qpsk
+  id: variable_constellation_rect
+  parameters:
+    comment: ''
+    const_points: '[+0.7071+0.7071j, -0.7071+0.7071j, +0.7071-0.7071j, -0.7071-0.7071j]'
+    imag_sect: '2'
+    precision: '8'
+    real_sect: '2'
+    rot_sym: '4'
+    soft_dec_lut: None
+    sym_map: '[0, 1, 2, 3]'
+    w_imag_sect: '1'
+    w_real_sect: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 8.0]
+    rotation: 0
+    state: true
+- name: sps
+  id: variable
+  parameters:
+    comment: ''
+    value: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [128, 112.0]
+    rotation: 0
+    state: enabled
+- name: blocks_matrix_interleaver_0
+  id: blocks_matrix_interleaver
+  parameters:
+    affinity: ''
+    alias: ''
+    cols: '4'
+    comment: ''
+    deint: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rows: '4'
+    type: byte
+    vlen: '16'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1272, 200.0]
+    rotation: 0
+    state: enabled
+- name: blocks_pack_k_bits_bb_0_0_2_1
+  id: blocks_pack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [848, 224.0]
+    rotation: 0
+    state: enabled
+- name: blocks_pack_k_bits_bb_0_0_2_1_0
+  id: blocks_pack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 448.0]
+    rotation: 180
+    state: enabled
+- name: blocks_stream_to_tagged_stream_0_0
+  id: blocks_stream_to_tagged_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    len_tag_key: len_key
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packet_len: message_size
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1488, 312.0]
+    rotation: 180
+    state: enabled
+- name: blocks_stream_to_vector_0
+  id: blocks_stream_to_vector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '16'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1040, 232.0]
+    rotation: 0
+    state: enabled
+- name: blocks_throttle_0
+  id: blocks_throttle
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: 96e3
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [176, 176.0]
+    rotation: 0
+    state: disabled
+- name: blocks_unpack_k_bits_bb_0_1_1_0_0
+  id: blocks_unpack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 224.0]
+    rotation: 0
+    state: enabled
+- name: blocks_unpack_k_bits_bb_0_1_1_0_0_0
+  id: blocks_unpack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [608, 448.0]
+    rotation: 180
+    state: enabled
+- name: blocks_vector_to_stream_0
+  id: blocks_vector_to_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '16'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1528, 232.0]
+    rotation: 0
+    state: enabled
+- name: digital_constellation_modulator_0
+  id: digital_constellation_modulator
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation: qpsk
+    differential: 'True'
+    excess_bw: excess_bw
+    log: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_symbol: sps
+    truncate: 'False'
+    verbose: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [176, 296.0]
+    rotation: 180
+    state: enabled
+- name: digital_scrambler_bb_0_0
+  id: digital_scrambler_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    len: '7'
+    mask: '0x8A'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    seed: '0x7F'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [456, 432.0]
+    rotation: 180
+    state: enabled
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nEmbedded Python Block\n\"\"\"\n\nimport numpy as np\nfrom\
+      \ gnuradio import gr\nimport pmt\n\nclass blk(gr.sync_block):\n    \"\"\"Packet\
+      \ Format\"\"\"\n\n    def __init__(self):\n        gr.sync_block.__init__(self,\n\
+      \            name = \"Packet Format\",\n            in_sig=None,\n         \
+      \   out_sig = None)\n        self.message_port_register_in(pmt.intern('PDU_in'))\n\
+      \        self.message_port_register_out(pmt.intern('PDU_out'))\n        self.set_msg_handler(pmt.intern('PDU_in'),\
+      \ self.handle_msg)\n\n    def handle_msg(self,msg):\n        inMsg = pmt.to_python\
+      \ (msg)\n        pld = inMsg[1]\n        # print (pld)\n        mLen = len(pld)\n\
+      \        # print (mLen)\n        if (mLen > 0):\n            char_list = [85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,225,90,232,147]\n\
+      \            char_list.append (mLen >> 8)\n            char_list.append (mLen\
+      \ & 255)\n            char_list.append (mLen >> 8)\n            char_list.append\
+      \ (mLen & 255)\n            char_list.extend (pld)\n            #char_list.extend\
+      \ ([85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85])\n            # print (char_list)\n\
+      \            out_len = len(char_list)\n            # print (out_len)\n     \
+      \       #output_items[0][:] = char_list\n            self.message_port_pub(pmt.intern('PDU_out'),\
+      \ pmt.cons(pmt.PMT_NIL,pmt.init_u8vector(out_len,(char_list))))\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Packet Format', 'blk', [], [('PDU_in', 'message', 1)], [('PDU_out',
+      'message', 1)], 'Packet Format', [])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [928, 328.0]
+    rotation: 180
+    state: enabled
+- name: fec_extended_encoder_0
+  id: fec_extended_encoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    encoder_list: enc_cc
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    puncpat: '''11'''
+    threadtype: none
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [552, 208.0]
+    rotation: 0
+    state: true
+- name: pad_sink_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: to_tx
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [0, 320.0]
+    rotation: 180
+    state: true
+- name: pad_source_0
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: data_in
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [0, 224.0]
+    rotation: 0
+    state: true
+- name: pdu_pdu_to_tagged_stream_0
+  id: pdu_pdu_to_tagged_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    tag: len_key
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [600, 320.0]
+    rotation: 180
+    state: enabled
+- name: pdu_tagged_stream_to_pdu_0_1
+  id: pdu_tagged_stream_to_pdu
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    tag: len_key
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1192, 320.0]
+    rotation: 180
+    state: enabled
+
+connections:
+- [blocks_matrix_interleaver_0, '0', blocks_vector_to_stream_0, '0']
+- [blocks_pack_k_bits_bb_0_0_2_1, '0', blocks_stream_to_vector_0, '0']
+- [blocks_pack_k_bits_bb_0_0_2_1_0, '0', digital_constellation_modulator_0, '0']
+- [blocks_stream_to_tagged_stream_0_0, '0', pdu_tagged_stream_to_pdu_0_1, '0']
+- [blocks_stream_to_vector_0, '0', blocks_matrix_interleaver_0, '0']
+- [blocks_throttle_0, '0', blocks_unpack_k_bits_bb_0_1_1_0_0, '0']
+- [blocks_unpack_k_bits_bb_0_1_1_0_0, '0', fec_extended_encoder_0, '0']
+- [blocks_unpack_k_bits_bb_0_1_1_0_0_0, '0', digital_scrambler_bb_0_0, '0']
+- [blocks_vector_to_stream_0, '0', blocks_stream_to_tagged_stream_0_0, '0']
+- [digital_constellation_modulator_0, '0', pad_sink_0, '0']
+- [digital_scrambler_bb_0_0, '0', blocks_pack_k_bits_bb_0_0_2_1_0, '0']
+- [epy_block_0, PDU_out, pdu_pdu_to_tagged_stream_0, pdus]
+- [fec_extended_encoder_0, '0', blocks_pack_k_bits_bb_0_0_2_1, '0']
+- [pad_source_0, '0', blocks_throttle_0, '0']
+- [pad_source_0, '0', blocks_unpack_k_bits_bb_0_1_1_0_0, '0']
+- [pdu_pdu_to_tagged_stream_0, '0', blocks_unpack_k_bits_bb_0_1_1_0_0_0, '0']
+- [pdu_tagged_stream_to_pdu_0_1, pdus, epy_block_0, PDU_in]
+
+metadata:
+  file_format: 1
